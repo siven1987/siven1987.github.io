@@ -162,6 +162,236 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/cpp%E4%B8%AD%E4%B8%80%E4%BA%9B%E8%9B%AE%E6%9C%89%E7%94%A8%E7%9A%84%E5%BA%93%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lhf_siven">
+      <meta itemprop="description" content="努力变成更好的自己">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lhf_siven">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/10/cpp%E4%B8%AD%E4%B8%80%E4%BA%9B%E8%9B%AE%E6%9C%89%E7%94%A8%E7%9A%84%E5%BA%93%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">cpp中一些蛮有用的库函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-10 22:49:47 / 修改时间：23:50:14" itemprop="dateCreated datePublished" datetime="2020-08-10T22:49:47+08:00">2020-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="这个博文用来记录我在刷题时-所遇到的一些蛮有用的库函数"><a href="#这个博文用来记录我在刷题时-所遇到的一些蛮有用的库函数" class="headerlink" title="这个博文用来记录我在刷题时,所遇到的一些蛮有用的库函数."></a>这个博文用来记录我在刷题时,所遇到的一些蛮有用的库函数.</h3><hr>
+<p><strong>Sort()函数</strong></p>
+<p>当我们引用了c++中algorithm的头文件时,我们就能用到这个函数拉,这是一个非常方便的排序函数，并且他的效率也是很高的，虽然我没有深入了解他的实现，但从网上搜索的结果来看，sort（）函数利用的时改进的快排算法，时间复杂度为O（nlogn），这是相当快的了，当然了，不要过分依赖它，偶尔也要自己手动写写各种排序算法才行呢。</p>
+<p><strong>sort函数的模板有三个参数：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sort</span> <span class="params">(RandomAccessIterator first, RandomAccessIterator last, Compare comp)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>第一个参数first：是要排序的数组的起始地址。</li>
+<li>第二个参数last：是结束的地址（最后一个数据的后一个数据的地址）。</li>
+<li>第三个参数comp是排序的方法：可以是从升序也可是降序。如果第三个参数不写，则默认的排序方法是从小到大排序（当然，sort（）只提供了对基本数据类型以及string等的默认比较方法，其他的例如用户自己定义的结构体或累,就需要自己手动编写比较算法啦）。</li>
+</ol>
+<p>举例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">　　<span class="comment">//sort函数第三个参数采用默认从小到大</span></span><br><span class="line">　　<span class="keyword">int</span> a[]=&#123;<span class="number">45</span>,<span class="number">12</span>,<span class="number">34</span>,<span class="number">77</span>,<span class="number">90</span>,<span class="number">11</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">55</span>&#125;;</span><br><span class="line">　　sort(a,a+<span class="number">10</span>);</span><br><span class="line">　　<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)</span><br><span class="line">　　<span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>自定义排序</strong></p>
+<p>sort()允许我们自定义排序,有以下几种方法:</p>
+<p>(1)<strong>自定义比较函数cmp</strong></p>
+<p>比如：</p>
+<pre><code>bool  cmp(int a,int b)
+&#123;
+return b&lt;a;
+&#125;
+
+sort(a,a+n,cmp);</code></pre>
+<p>传入的参数类型和需要排序的数据类型一致，如果认为第一个参数比第二个小，也就是第一个参数需要排在第二个参数前面时返回true，反之返回 false。系统默认a&lt;b时返回true，于是从小到大排。而上面的例子是当b小于a时，认为a小于b。所以排序的结果就是将元素按从大到小的顺序排序。</p>
+<p>(2)<strong>重载比较运算符“&lt;”</strong></p>
+<p>如：</p>
+<pre><code>bool operator&lt; (const Student&amp; s1, const Student&amp; s2)
+&#123;
+if(s1.age==s2.age)    return s1.name &lt;s2.name;//年龄相同时，按姓名小到大排
+else  return s1.age &gt; s2.age; //从年龄大到小排序
+&#125;
+
+sort(a,a+n);</code></pre>
+<p>这里一定要注意一下：</p>
+<p>参数类型如果是自定义类型，比如自己定义的结构体，类，尽管sort函数默认是从小到大排列，但是这里必须要在类中重载比较运算符“&lt;”,当然也可以用第一种方法。</p>
+<p>和cmp函数同理，如果认为第一个参数比第二个小就返回true，反之返回 false。</p>
+<p>(3)<strong>声明比较类</strong></p>
+<pre><code>struct cmp
+&#123;
+    bool operator() (const Student&amp; s1, const Student&amp; s2)
+
+   &#123;
+
+          if(s1.age==s2.age)
+
+                 return s1.name &lt;s2.name;
+
+          else  return s1.age &lt; s2.age;
+
+    &#125;</code></pre>
+<p>};</p>
+<p>sort(a,a+n,cmp());</p>
+<p>还是同理，如果认为第一个参数比第二个小就返回true，反之返回 false。</p>
+<p>(4) <strong>functional提供了一堆基于模板的比较函数对象</strong>：equal_to<Type>、not_equal_to<Type>、greater<Type>、greater_equal<Type>、less<Type>、less_equal<Type>。对于这个问题来说，greater和less就足够了，直接拿过来用：</Type></Type></Type></Type></Type></Type></p>
+<p>升序：sort(begin,end,less<data-type>());</data-type></p>
+<p>降序：sort(begin,end,greater<data-type>()。</data-type></p>
+<p><mark>要注意的是:</mark>如果你是在类中定义的cmp()函数,并且想要在另一个类函数中用它当比较规则,那么必须将cmp()设为static,原因是当cmp()作为类函数时,实际上它含有这一个隐含的参数,即this指针,因此若用它来做比较函数,那么将会报错,解决方法就是将它定义为静态的static,亦或是把他定义在函数外,作为全局方法.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lhf_siven">
+      <meta itemprop="description" content="努力变成更好的自己">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lhf_siven">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/" class="post-title-link" itemprop="url">数据结构和算法学习(二)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-10 14:09:17 / 修改时间：20:01:33" itemprop="dateCreated datePublished" datetime="2020-08-10T14:09:17+08:00">2020-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="高级数据结构-Advanced-Data-Structure"><a href="#高级数据结构-Advanced-Data-Structure" class="headerlink" title="高级数据结构/Advanced Data Structure"></a>高级数据结构/Advanced Data Structure</h3><hr>
+<ul>
+<li><strong>优先队列</strong> / Priority Queue</li>
+<li><strong>图</strong> / Graph</li>
+<li><strong>前缀树</strong> / Tree</li>
+<li><strong>线段树</strong> / Segment Tree</li>
+<li><strong>树状数组</strong>/ Fenwick Tree / Binary Indexed Tree</li>
+</ul>
+<p>这些数据结构相对于前面我们学习的数据结构实现起来要复杂很多,但对我们在处理一些复杂问题时很有帮助,同时<strong>掌握好它们的性质,以及所适用的场合,在分析问题的时候回归本质,很多题目能够迎刃而解。</strong></p>
+<h3 id="优先队列-Priority-Queue"><a href="#优先队列-Priority-Queue" class="headerlink" title="优先队列 / Priority Queue"></a>优先队列 / Priority Queue</h3><hr>
+<p><strong>与普通队列的区别</strong></p>
+<p>保证每次取出的元素时队列中优先级别最高的。</p>
+<p>优先级别可自定义</p>
+<p><strong>最常用场景</strong></p>
+<p>从杂乱无章的数据中按照一定的顺序（或者优先级）筛选数据</p>
+<p><strong>本质</strong></p>
+<p><img src="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200810174613059.png" alt="image-20200810174613059"></p>
+<p>二叉堆（Binary Heap）的结构</p>
+<p>利用一个数组结构来实现完全二叉树。</p>
+<p>优先队列的本质是一个数组，数组里的每个元素既有可能是其他元素的父节点，也有可能是其他元素的子节点，而且每个父节点只能有两个子节点。</p>
+<p><strong>特性</strong></p>
+<p>数组里的第一个元素array[0]拥有最高的优先级</p>
+<p>给定一个下标i，那么对于元素array[i]而言</p>
+<ul>
+<li>父节点对应的元素下标是（i-1）/2</li>
+<li>左侧子节点对应的元素下标是2*i +1</li>
+<li>右侧子节点对应的元素下标是2*i +2</li>
+</ul>
+<p>数组中每个元素的优先级都必须高于它两侧子节点。</p>
+<p>因为是二叉堆结构，所以说每层的节点数是可知，稍加推导就可以得到上面所述的性质了。</p>
+<p><strong>基本操作</strong></p>
+<ul>
+<li>向上筛选（sift up / bubble up）：当有新的数据加入到优先队列中，新的数据首先被放到二叉堆的底部，然后不断地对它进行向上筛选的操作，即<strong>如果发现其优先级别比其父节点的优先级别更高，则将其与其父节点相互交换，重复该过程，直到无法交换为止。由于二叉堆是一棵完全二叉树，假设堆的大小为k，因此整个过程实际上就是沿着树的高度往上爬，所以只需要O（log k）的时间</strong>。</li>
+<li>向下筛选（sift down / bubble down）：当堆顶的元素被取出时，我们要更新堆顶的元素，来作为下一次按照优先顺序被取出的对象。 如何更新呢？<strong>首先我们将堆底部的元素放置到堆顶，然后不断地对其进行向下筛选的操作，即将该元素跟其两个孩子进行对比，如果优先级别最高的是某个孩子节点，则将该元素与那个孩子节点进行交换，重复该过程，直到无法交换为止。整个过程就是沿着树的高度往下爬，因此时间复杂度依旧是O（log k）。</strong></li>
+<li><strong>因此，无论是添加新的数据还是取出堆顶的元素，都需要O（log k）的时间。</strong></li>
+<li>另外一个最重要的时间复杂度：<strong>优先队列的初始化，这是分析运用优先队列性能是必不可少的，也是经常容易弄错的地方。</strong>假设我们有n个数据，我们需要创建一个大小为n的堆，乍一看，每当我们把一个数据加入到堆底，我们都要对它进行向上筛选的操作，这样一来，算法复杂度应该是O（n log n）。但是实际上我们在创建这个堆的过程中，<mark>二叉树的大小是从1逐渐增长到n的，所以整个算法的时间复杂度经过一些列数学推导（怎么推导的，没有细究）应该是O（n）。</mark></li>
+</ul>
+<p><strong>举例</strong></p>
+<img src="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200810195921881.png" alt="image-20200810195921881" style="zoom:80%;">
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/06/%E9%93%BE%E8%A1%A8%E4%B9%A0%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -422,7 +652,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-10 13:52:26" itemprop="dateModified" datetime="2020-08-10T13:52:26+08:00">2020-08-10</time>
+                <time title="修改时间：2020-08-10 14:10:38" itemprop="dateModified" datetime="2020-08-10T14:10:38+08:00">2020-08-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -633,6 +863,7 @@
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">kthSmallest</span><span class="params">(TreeNode* root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//InOreder(root,k);</span></span><br><span class="line">       <span class="built_in">stack</span>&lt;TreeNode*&gt; s;</span><br><span class="line">       <span class="comment">//分别用递归和迭代写了中序遍历,迭代相对快点,因为递归需要保存、读取断点等操作更多。</span></span><br><span class="line">       <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">           <span class="keyword">while</span>(root!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">               s.push(root);</span><br><span class="line">               root = root-&gt;left;</span><br><span class="line">           &#125;</span><br><span class="line">           root = s.top();s.pop();</span><br><span class="line">           <span class="keyword">if</span>(--k==<span class="number">0</span>) <span class="keyword">return</span> root-&gt;val;</span><br><span class="line">           root = root-&gt;right;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">InOreder</span><span class="params">(TreeNode* root,<span class="keyword">int</span> &amp;k)</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(root-&gt;left!=<span class="literal">NULL</span>) InOreder(root-&gt;left,k);</span><br><span class="line">       k--;</span><br><span class="line">       <span class="keyword">if</span>(k==<span class="number">0</span>) res=root-&gt;val;</span><br><span class="line">       <span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="keyword">if</span>(root-&gt;right!=<span class="literal">NULL</span>) InOreder(root-&gt;right,k);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
 <p>同时这道题也可以改成求第k大的值,那么我们只要将中序遍历的规则稍改,按照右孩子,根节点,左孩子的顺序访问即可.</p>
+<p>树的相关知识很重要,要好好掌握.</p>
 
       
     </div>
@@ -787,20 +1018,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
