@@ -29,12 +29,16 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200810174613059.png">
 <meta property="og:image" content="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200810195921881.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200818125209630.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200818125530050.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200818125804528.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200820143013042.png">
 <meta property="article:published_time" content="2020-08-10T06:09:17.000Z">
-<meta property="article:modified_time" content="2020-08-10T12:01:33.940Z">
+<meta property="article:modified_time" content="2020-08-21T14:40:39.230Z">
 <meta property="article:author" content="lhf_siven">
+<meta property="article:tag" content="算法">
 <meta property="article:tag" content="数据结构">
 <meta property="article:tag" content="学习">
-<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200810174613059.png">
 
@@ -193,10 +197,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-10 14:09:17 / 修改时间：20:01:33" itemprop="dateCreated datePublished" datetime="2020-08-10T14:09:17+08:00">2020-08-10</time>
+              <time title="创建时间：2020-08-10 14:09:17" itemprop="dateCreated datePublished" datetime="2020-08-10T14:09:17+08:00">2020-08-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-21 22:40:39" itemprop="dateModified" datetime="2020-08-21T22:40:39+08:00">2020-08-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -264,6 +274,138 @@
 </ul>
 <p><strong>举例</strong></p>
 <img src="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200810195921881.png" alt="image-20200810195921881" style="zoom:80%;">
+
+<p>这个题目并不难,题目说了要优于nlogn,实际上就是暗示我们用堆排序,因为哪怕是快排也需要nlogn而不是优于，而我们只需要维护一个大小为k的优先队列，就能在O（nlogk）里进行排序，当k较小的时候，时间复杂度是佷优的，但是如果k比较大的话，我们可以转换成删除k个频率最小的元素，使得算法复杂度变成O（nlog（n-k））。</p>
+<p>解题思路：</p>
+<ul>
+<li>先用unordered_map 统计元素频率.</li>
+<li>将他们放入到大小为k的priority_queue中,这一步需要我们自定义排序的方法,用下述方法自定义。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cmp</span>&#123;</span><span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(T a, T b)</span></span>&#123;...&#125;&#125;</span><br><span class="line"><span class="comment">//要注意的是,priority_queue默认使用&lt;来排序,默认容器是vector,也就是说优先级最大的元素实际上是在vector的尾部的。</span></span><br><span class="line"><span class="comment">//所以对基本数据类型，如果我们不自定义排序的话，它默认是大根堆。</span></span><br><span class="line"><span class="comment">//而如果我们使用greater&lt;T&gt;(),获得的实际上是一个小根堆.因为greater&lt;T&gt;()的定义如下</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="keyword">const</span> T&amp; x, <span class="keyword">const</span> T&amp; y)</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> x&gt;y;&#125;</span><br><span class="line"><span class="comment">//而相反的less&lt;T&gt;()获得的是一个大根堆</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(<span class="keyword">const</span> T&amp; x, <span class="keyword">const</span> T&amp; y)</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> x&lt;y;&#125;</span><br><span class="line"><span class="comment">//我们自己自定义的时候,对于(T a,T b),如果希望b的优先级更大,那么就返回true,否则返回false.</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>要注意的是,当队列中元素为k时,新元素到来,我们则要将其于队首元素进行比较,如果队首元素的出现频率更小,那么队首元素出队,新元素push进队,否则新元素不仅队</li>
+<li>等所有元素都处理过后,留在队中的元素就是出现频率最大的k个元素,之后我们将他逐一放到vector中即可.</li>
+</ul>
+<p>自己在用vector实现heap的时候,感觉向上筛选挺好实现的,但是向下的就蛮难了,因为向下的话不好确定临界条件.有点难受,明明我之前大二的时候实现过了,害我真是菜啊.</p>
+<h3 id="图-Graph"><a href="#图-Graph" class="headerlink" title="图/Graph"></a>图/Graph</h3><hr>
+<p><strong>基本知识点如下</strong></p>
+<ul>
+<li>阶、度（出度、入度）</li>
+<li>树、森林、环</li>
+<li>有向图、无向图、完全有向图、完全无向图</li>
+<li>连通图、连通分量</li>
+<li>图的存储和表达方式：邻接矩阵、临界列表</li>
+</ul>
+<p><strong>围绕图的算法也是各式各样</strong></p>
+<ul>
+<li>图的遍历：深度优先、广度优先</li>
+<li>环的检测：有向图、无向图</li>
+<li>拓扑排序</li>
+<li>最短路径算法： Dijkstra、Bellman-Ford、Floyd Warshall</li>
+<li>连通性相关算法： Kosaraju、Tarjan、求解孤岛的数量、判断是否为树</li>
+<li>图的着色、旅行商问题等</li>
+<li>还有很多…</li>
+</ul>
+<p><strong>必须熟练掌握的知识点</strong></p>
+<ul>
+<li>图的存储和表达方式：邻接矩阵、邻接列表</li>
+<li>图的遍历：深度优先、广度优先</li>
+<li>二部图的检测（Bipartite）、树的检测、环的检测：有向图、无向图</li>
+<li>拓扑排序</li>
+<li>联合-查找算法（Union-Find）</li>
+<li>最短路径：Dijkstra、Bellman-Ford</li>
+</ul>
+<p>具体内容看另外一篇博文—《图》</p>
+<h3 id="前缀树-Trie"><a href="#前缀树-Trie" class="headerlink" title="前缀树/Trie"></a>前缀树/Trie</h3><p><strong>前缀树也称为字典树</strong></p>
+<p>这种数据结构被广泛地运用到字典查找当中</p>
+<p><strong>什么是字典查找？</strong></p>
+<p>例如：给定一系列构成字典的字符串，要求在字典当中找出所有以“ABC”开头的字符串</p>
+<ul>
+<li>方法一：暴力搜索法。假设字典内单词为N,所要对比的开头平均长度为M,那么时间复杂度为O(M*N).</li>
+<li>方法二:前缀树。时间复杂度O（M），M为字典里最长单词的字符个数。在大多数情况下N是远远大于M的。所以方法二的时间复杂度是远小于方法一的。</li>
+</ul>
+<p><strong>经典应用</strong></p>
+<ul>
+<li><p>搜索框输入搜索文字，会罗列以搜索词开头的相关搜索</p>
+</li>
+<li><p>汉语拼音输入法的联想输出功能也用到了前缀树。</p>
+</li>
+</ul>
+<p><strong>重要性质</strong></p>
+<ul>
+<li>每个节点至少包含两个基本属性<ul>
+<li>children：数组或者集合，罗列出每个分支当中包含的所有字符</li>
+<li>isEnd：布尔值，表示该节点是否为某字符串的结尾</li>
+</ul>
+</li>
+<li>前缀树的根节点是空的</li>
+<li>除了根节点，其他所有节点都可能是单词的结尾，叶子节点一定都是单词的结尾。</li>
+</ul>
+<p><strong>最基本操作</strong></p>
+<p><mark>具体实现见力扣208题</mark></p>
+<p>创建</p>
+<p><strong>方法</strong></p>
+<ul>
+<li>遍历一遍输入的字符串，对每个字符串的字符进行遍历</li>
+<li>从前缀树的根节点开始，将每个字符加入到节点的Children字符集当中</li>
+<li>如果字符集已经包含了这个字符，跳过。</li>
+<li>如果当前字符是字符串的结尾，把当前节点的 isEnd 标记为真 </li>
+<li>时间复杂度为O(n),n所有字符串的总长度</li>
+</ul>
+<p>搜索</p>
+<p><strong>方法</strong></p>
+<ul>
+<li>从前缀树的根节点出发，逐个匹配输入的前缀字符</li>
+<li>如果遇到了，继续往下一层搜索</li>
+<li>如果没遇到，立即返回。</li>
+<li>由此可见，如果树是按上面那种方法建立的话，树最长分支长度为最长字符串的长度M，所以通过前缀树来查一个字符串的时间复杂度为O（M）</li>
+</ul>
+<p><strong>举例</strong></p>
+<p><img src="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200818125209630.png"></p>
+<p><img src="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200818125530050.png" alt="image-20200818125530050"></p>
+<p>这个题我们能够很容易想到用回溯</p>
+<p>用回溯可以把所有的情况都走一便,但显然这样的时间复杂度和空间复杂度都太大了.</p>
+<p>所以我们要想办法把一些不可能的情况给删除掉,或者说让回溯提早结束.</p>
+<p>前缀树就能够很轻易的帮我们做到这一点.</p>
+<p>解题思路</p>
+<ul>
+<li>我们根据words构建出一棵前缀树(如右图)<img src="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200818125804528.png" alt="image-20200818125804528"></li>
+<li>然后我们遍历board,当遍历的字符为[“o”,”p”,”e”,”r”]时即root对应的子节点.说明我们找到了一条有可能的起点.</li>
+<li>于是我们要从该起点,设为(m,n)起进行dfs,同时此时我们要比对的应该是[“o”,”p”,”e”,”r”]对应的子树,假设该点对应’o’</li>
+<li>那么接下来我们要判断(m,n)上下左右的临界点是否有值为’a’的点,若有则对该点dfs</li>
+<li>重复这一过程,如果board存在words中的值,那么我们一定会遍历到。</li>
+<li>此外，对于记得要维护一个visited记录我们访问过的点，以免无限递归。</li>
+</ul>
+<p><strong>关键代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">dfs</span><span class="params">(Trie* node,<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">       <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; res;</span><br><span class="line">       <span class="keyword">if</span>(node-&gt;getEnd()) &#123;<span class="built_in">string</span> q=<span class="string">&quot;&quot;</span>;res.push_back(a[m][n]+q);&#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> z=<span class="number">0</span>;z&lt;<span class="number">4</span>;z++)&#123;</span><br><span class="line">           <span class="keyword">int</span> x = m+dx[z],y=n+dy[z];</span><br><span class="line">           <span class="keyword">if</span>(x&gt;=<span class="number">0</span>&amp;&amp;x&lt;row&amp;&amp;y&gt;=<span class="number">0</span>&amp;&amp;y&lt;col&amp;&amp;done[x][y]==<span class="number">0</span>&amp;&amp;node-&gt;next[a[x][y]-<span class="string">&#x27;a&#x27;</span>])&#123;</span><br><span class="line">               done[x][y] = <span class="number">1</span>;</span><br><span class="line">               <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; temp = dfs(node-&gt;next[a[x][y]-<span class="string">&#x27;a&#x27;</span>],x,y);</span><br><span class="line">               done[x][y] = <span class="number">0</span>;</span><br><span class="line">               <span class="keyword">for</span>(<span class="built_in">string</span> s:temp)&#123;</span><br><span class="line">                   s = a[m][n]+s;</span><br><span class="line">                   res.push_back(s);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="线段树-Segment-Tree"><a href="#线段树-Segment-Tree" class="headerlink" title="线段树/Segment Tree"></a>线段树/Segment Tree</h3><hr>
+<p><strong>先从一个例题出发</strong></p>
+<p>假设我们有一个数组array[0…n-1],里面有n个元素,现在我们要经常对这个数组做两件事:</p>
+<ol>
+<li>更新数组元素的数值</li>
+<li>求数组任意一段区间里元素的总和(或者平均值)</li>
+</ol>
+<p><strong>方法一</strong>:遍历一遍数组</p>
+<p>时间复杂度O(n)–&gt;更新元素O(1)+遍历O(n)</p>
+<p><strong>方法二</strong>:线段树</p>
+<p>时间复杂度：O（logn）</p>
+<p><strong>什么是线段树</strong></p>
+<p>线段树是一种按照二叉树的形式存储数据的结构,每个节点保存的都是数组里某一段的总和。</p>
+<p><strong>例如</strong></p>
+<p>数组[1，3，5，7，9，11]，对应的线段树如下：</p>
+<p><img src="/2020/08/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E4%BA%8C/image-20200820143013042.png" alt="image-20200820143013042"></p>
+<p>可以看出，根节点保存着所有元素的总和，而他的左右两个子节点分别储存左右两半元素的总和，按照这样的逻辑不断切分下去，最终叶子节点保存的就是每个元素的值。</p>
+<p><strong>数组元素更新</strong></p>
+<p>当我们要更新数组里某个元素时，我们从线段树的根节点出发，更新节点的值，因为他保存的是数组元素的总和，接下来，我们要从根节点往下，判断所修改元素的下标是在左半部分，还是右半部分，然后更新分支里的节点大小，按照这个逻辑不断更新下去，直到跟新到叶子节点，即存储该元素值的节点。</p>
+<p>而上述这个过程就是沿着树的高度往下爬，所以复杂度是O（log n）</p>
+<p><strong>对数组某区间段的元素进行求和</strong></p>
+<p>方法与跟新方式类似，首先从根节点出发，判断所求区间是否落在节点所代表的区间当中，如果所要求的区间，完全包含了节点所代表的区间，那么就得加上该节点的数值 ，意味着该节点所储存的区间总和，只是我们要求的区间总和的一部分。接下来不断地往下寻找其他的子区间，最终得出我们要的总和。    </p>
+<p>​    </p>
+
     </div>
 
     
@@ -272,9 +414,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
               <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           </div>
 
         
@@ -348,7 +490,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-Advanced-Data-Structure"><span class="nav-number">1.</span> <span class="nav-text">高级数据结构&#x2F;Advanced Data Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97-Priority-Queue"><span class="nav-number">2.</span> <span class="nav-text">优先队列 &#x2F; Priority Queue</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-Advanced-Data-Structure"><span class="nav-number">1.</span> <span class="nav-text">高级数据结构&#x2F;Advanced Data Structure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97-Priority-Queue"><span class="nav-number">2.</span> <span class="nav-text">优先队列 &#x2F; Priority Queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE-Graph"><span class="nav-number">3.</span> <span class="nav-text">图&#x2F;Graph</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%BC%80%E6%A0%91-Trie"><span class="nav-number">4.</span> <span class="nav-text">前缀树&#x2F;Trie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91-Segment-Tree"><span class="nav-number">5.</span> <span class="nav-text">线段树&#x2F;Segment Tree</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -362,20 +504,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -410,7 +552,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="数据宽度C、C++、java都需要定义数据的类型，是因为计算机底层需要我们给这些数据定义宽度。 位(bit)        0 1 字节(byte)    0→0xFF 字(word)        0→0xFFFF     6位 双字(dword)    0→0xFFFFFFFF    32位 四字(qword)    0→0xFFFFFFFFFFFFFFFF    64位 有符号数&#x2F;无符号数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编初学">
+<meta property="og:url" content="http://yoursite.com/2020/12/31/%E6%B1%87%E7%BC%96%E5%88%9D%E5%AD%A6/index.html">
+<meta property="og:site_name" content="lhf_siven">
+<meta property="og:description" content="数据宽度C、C++、java都需要定义数据的类型，是因为计算机底层需要我们给这些数据定义宽度。 位(bit)        0 1 字节(byte)    0→0xFF 字(word)        0→0xFFFF     6位 双字(dword)    0→0xFFFFFFFF    32位 四字(qword)    0→0xFFFFFFFFFFFFFFFF    64位 有符号数&#x2F;无符号数">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-12-31T15:01:22.000Z">
+<meta property="article:modified_time" content="2021-01-29T08:12:35.706Z">
+<meta property="article:author" content="lhf_siven">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/12/31/%E6%B1%87%E7%BC%96%E5%88%9D%E5%AD%A6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>汇编初学 | lhf_siven</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">lhf_siven</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/31/%E6%B1%87%E7%BC%96%E5%88%9D%E5%AD%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lhf_siven">
+      <meta itemprop="description" content="努力变成更好的自己">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lhf_siven">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          汇编初学
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-31 23:01:22" itemprop="dateCreated datePublished" datetime="2020-12-31T23:01:22+08:00">2020-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-29 16:12:35" itemprop="dateModified" datetime="2021-01-29T16:12:35+08:00">2021-01-29</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="数据宽度"><a href="#数据宽度" class="headerlink" title="数据宽度"></a>数据宽度</h4><p>C、C++、java都需要定义数据的类型，是因为计算机底层需要我们给这些数据定义宽度。</p>
+<p>位(bit)        0 1</p>
+<p>字节(byte)    0→0xFF</p>
+<p>字(word)        0→0xFFFF     6位</p>
+<p>双字(dword)    0→0xFFFFFFFF    32位</p>
+<p>四字(qword)    0→0xFFFFFFFFFFFFFFFF    64位</p>
+<h4 id="有符号数-无符号数"><a href="#有符号数-无符号数" class="headerlink" title="有符号数/无符号数"></a>有符号数/无符号数</h4><ul>
+<li><p>无符号数规则：二进制数字是什么，那就是什么</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10011010 HEX:0x9A DEC:154 </span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>有符号数规则：最高位是符号位：1(负数)  0(正数)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10011010 如何转换？</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>原码反码补码</p>
+<p>有符号数的编码规则</p>
+<ul>
+<li><p>原码：最高位为符号位，剩下的位为该数的绝对值</p>
+</li>
+<li><p>反码：</p>
+<ul>
+<li>正数：与原码相同</li>
+<li>负数：符号位一定是1，其余位对原码取反</li>
+</ul>
+</li>
+<li><p>补码：</p>
+<ul>
+<li>正数:与原码相同</li>
+<li>负数:符号位一定是1,对反码+1</li>
+</ul>
+</li>
+<li><p>如果是正数,则三种编码规则一致.</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">测试(字长为8):</span><br><span class="line">1</span><br><span class="line"><span class="meta">#</span><span class="bash">原码    0 0 0 0 0 0 0 1</span></span><br><span class="line"><span class="meta">#</span><span class="bash">反码 0 0 0 0 0 0 0 1</span></span><br><span class="line"><span class="meta">#</span><span class="bash">补码 0 0 0 0 0 0 0 1</span></span><br><span class="line">-1</span><br><span class="line"><span class="meta">#</span><span class="bash">原码    1 0 0 0 0 0 0 1</span></span><br><span class="line"><span class="meta">#</span><span class="bash">反码 1 1 1 1 1 1 1 0</span></span><br><span class="line"><span class="meta">#</span><span class="bash">补码 1 1 1 1 1 1 1 1</span></span><br></pre></td></tr></table></figure>
+
+<p>如果看到一个二进制的数字，需要了解它是有符号数还是无符号数，<strong>有符号数在计算机底层当中一般是按补码存储的</strong>。</p>
+<p>寄存器：mov指令可以往寄存器中存值</p>
+</li>
+</ul>
+<h4 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h4><ul>
+<li>与运算(and &amp;)</li>
+<li>或运算(or |)</li>
+<li>异或运算(xor ^)</li>
+<li>非运算(单目运算符 not ~)</li>
+<li>位运算(移动位)<ul>
+<li>左移：(&lt;&lt;) 所有二进制位全部左移若干位,高位丢弃,低位补0.</li>
+<li>右移: (&gt;&gt;) 所有二进制位全部右移若干位,低位丢弃,高位补0,1(符号位决定)</li>
+</ul>
+</li>
+</ul>
+<h4 id="位运算的加减乘除"><a href="#位运算的加减乘除" class="headerlink" title="位运算的加减乘除"></a>位运算的加减乘除</h4><p>加减乘除本质上都是加法.</p>
+<p><strong>加法: 4+5</strong>?</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 计算机是怎么操作的?</span></span><br><span class="line">0000 0100</span><br><span class="line">0000 0101</span><br><span class="line">---------    人来做很简单就能算出来    </span><br><span class="line">0000 1001</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 计算机的实现</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第一步: 异或. 如果不考虑进位,异或可以直接出结果</span></span><br><span class="line">0000 0100</span><br><span class="line">0000 0101</span><br><span class="line">---------- </span><br><span class="line">0000 0001</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第二步: 与运算 (判断进位,如果与运算的结果为0,则没有进位)</span></span><br><span class="line">0000 0100</span><br><span class="line">0000 0101</span><br><span class="line">---------</span><br><span class="line">0000 0100</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 第三步,将与运算的结果左移一位: 0000 1000 <span class="comment">#进位的结果</span></span></span><br><span class="line"></span><br><span class="line">第四步: 异或</span><br><span class="line">0000 0001</span><br><span class="line">0000 1000</span><br><span class="line">---------</span><br><span class="line">0000 1001</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">第五步: 与运算(判断进位)</span></span><br><span class="line">0000 0001</span><br><span class="line">0000 1000</span><br><span class="line">---------</span><br><span class="line">0000 0000</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">当与运算的结果为0时,上一个异或运算的结果为最终结果.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 即4+5 = 0000 1001</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>减法:</strong></p>
+<h5 id="补码的意义"><a href="#补码的意义" class="headerlink" title="补码的意义"></a>补码的意义</h5><p>对减法进行运算我们首先要明白什么是<strong>补码</strong>.</p>
+<p>在介绍补码概念之前，先介绍一下<strong>“模</strong>”的概念：“模”是指一个计量系统的计数范围，如过去计量粮食用的斗、时钟等。计算机也可以看成一个计量机器，因为计算机的字长是定长的，即存储和处理的位数是有限的，因此它也有一个计量范围，即都存在一个“模”。如：时钟的计量范围是0~11，模=12。“模”实质上是计量器产生“溢出”的量，它的值在计量器上表示不出来，计量器上只能表示出模的余数。任何有模的计量器，均可化减法为加法运算,即取反后加1。</p>
+<p>举个形象的例子:</p>
+<p>现在有一个指向8点的闹钟需要校正到6点,那么有两种校正方法:</p>
+<ul>
+<li>顺时针拨10小时</li>
+<li>逆时针拨2小时</li>
+</ul>
+<p>这里的顺时针跟逆时针拨发实际上就相当于加和减,即实现了如下操作:</p>
+<p>8+10 = 12 + 6</p>
+<p>8-2 = 6</p>
+<p>10+2 = 12</p>
+<p>由于时针的模为12,所以最终这两种拨发都可以使得时针指向正确的6点.</p>
+<p>由上面这个例子我们可以看出,任何有模的计量器我们都可以使加一个数转化为减去相应的补数.</p>
+<p><strong>把补数用到计算机对数的处理上，就是补码.</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1的补码</span></span><br><span class="line">0000 0001</span><br><span class="line"><span class="meta">#</span><span class="bash"> -1的补码</span></span><br><span class="line">1111 1111</span><br><span class="line">由此可见在补码的规则下,互为相反数的两个数的补码互为补数.因此我们在进行注入4-5这样的减法运算时,就可以转换为4+(-5)</span><br><span class="line">0000 0100 </span><br><span class="line">1111 1011</span><br><span class="line">---------    异或</span><br><span class="line">1111 1111</span><br><span class="line"></span><br><span class="line">0000 0100</span><br><span class="line">1111 1011</span><br><span class="line">---------    与运算</span><br><span class="line">0000 0000</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 因此 4-5 = 1111 1111 即-1</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用补码，可以将符号位和数值域统一处理；同时，加法和减法也可以统一处理.因为补码具有这种优良的特性,因而在计算机系统中,数值一律用补码来表示和存储.</strong></p>
+<p>乘法：x*y，其本质就是y个x相加。</p>
+<p>除法：x/y，本质就是x能减去多少个y。</p>
+<p>综上，我们就了解了如何用位运算来进行加减乘除，其本质都是做加法。</p>
+<h4 id="汇编语言环境说明"><a href="#汇编语言环境说明" class="headerlink" title="汇编语言环境说明"></a>汇编语言环境说明</h4><p>通过汇编指令可以给计算机发一些操作，然后让计算机执行。</p>
+<p> 在学习汇编之前，大家需要先掌握环境的配置（1.vc6</p>
+<p>（程序到汇编的理解) 2.OD 3.抓包工具 4.加密解密工具)</p>
+<p>学汇编不是为了写代码,而是去理解程序的本质.</p>
+<p>建议直接学习32位汇编</p>
+<p>汇编入门：了解汇编和程序的对应关系，程序的本质即可。</p>
+<h4 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 32位CPU的通用寄存器只有8个</span></span><br><span class="line">EAX</span><br><span class="line">ECX</span><br><span class="line">EDX</span><br><span class="line">EBX</span><br><span class="line">ESP</span><br><span class="line">EBP</span><br><span class="line">ESI</span><br><span class="line">EDI</span><br><span class="line"><span class="meta">#</span><span class="bash"> 存值范围0~FFFFFFFF</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>mov指令</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 可以将数字写入到寄存器</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 可以将一个寄存器中的值写到另一个寄存器中 </span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h4><h4 id="汇编指令"><a href="#汇编指令" class="headerlink" title="汇编指令"></a>汇编指令</h4><h4 id="内存复制"><a href="#内存复制" class="headerlink" title="内存复制"></a>内存复制</h4><h4 id="汇编如何写函数"><a href="#汇编如何写函数" class="headerlink" title="汇编如何写函数"></a>汇编如何写函数</h4><h4 id="堆栈传参"><a href="#堆栈传参" class="headerlink" title="堆栈传参"></a>堆栈传参</h4><h4 id="堆栈平衡"><a href="#堆栈平衡" class="headerlink" title="堆栈平衡"></a>堆栈平衡</h4><h4 id="外挂"><a href="#外挂" class="headerlink" title="外挂"></a>外挂</h4>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B1%87%E7%BC%96/" rel="tag"># 汇编</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/01/%E6%B5%AA%E6%BD%AE-%E5%86%B2%E6%B5%AA%E8%AE%A1%E5%88%92/" rel="prev" title="浪潮-冲浪计划">
+      <i class="fa fa-chevron-left"></i> 浪潮-冲浪计划
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%BD%E5%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">数据宽度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0-%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">有符号数&#x2F;无符号数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">3.</span> <span class="nav-text">位运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E5%8A%A0%E5%87%8F%E4%B9%98%E9%99%A4"><span class="nav-number">4.</span> <span class="nav-text">位运算的加减乘除</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A1%A5%E7%A0%81%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-number">4.1.</span> <span class="nav-text">补码的意义</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83%E8%AF%B4%E6%98%8E"><span class="nav-number">5.</span> <span class="nav-text">汇编语言环境说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">6.</span> <span class="nav-text">通用寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98"><span class="nav-number">7.</span> <span class="nav-text">内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="nav-number">8.</span> <span class="nav-text">汇编指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%A4%8D%E5%88%B6"><span class="nav-number">9.</span> <span class="nav-text">内存复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BD%E6%95%B0"><span class="nav-number">10.</span> <span class="nav-text">汇编如何写函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E6%A0%88%E4%BC%A0%E5%8F%82"><span class="nav-number">11.</span> <span class="nav-text">堆栈传参</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E6%A0%88%E5%B9%B3%E8%A1%A1"><span class="nav-number">12.</span> <span class="nav-text">堆栈平衡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E6%8C%82"><span class="nav-number">13.</span> <span class="nav-text">外挂</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lhf_siven</p>
+  <div class="site-description" itemprop="description">努力变成更好的自己</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/siven1987" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;siven1987" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lhf_siven@qq.com" title="E-Mail → mailto:lhf_siven@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lhf_siven</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>-->

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网络TCP&#x2F;IP TCP协议的拥塞控制就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。常用的方法有:  慢开始、拥塞控制 快重传、快恢复    Shell bash脚本文件一般第一行开头是：**#!**。  在bash编程中,算术比较大于、大于等于的运算符是：ge、gt   Java Object类中的方法：wait,clone,equals,hashCode,toStri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java面试准备">
+<meta property="og:url" content="http://yoursite.com/2020/10/12/java%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/index.html">
+<meta property="og:site_name" content="lhf_siven">
+<meta property="og:description" content="网络TCP&#x2F;IP TCP协议的拥塞控制就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。常用的方法有:  慢开始、拥塞控制 快重传、快恢复    Shell bash脚本文件一般第一行开头是：**#!**。  在bash编程中,算术比较大于、大于等于的运算符是：ge、gt   Java Object类中的方法：wait,clone,equals,hashCode,toStri">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2020/10/12/java%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/image-20201013092305981.png">
+<meta property="article:published_time" content="2020-10-12T14:21:55.000Z">
+<meta property="article:modified_time" content="2020-10-14T07:34:58.956Z">
+<meta property="article:author" content="lhf_siven">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/10/12/java%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/image-20201013092305981.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/12/java%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>java面试准备 | lhf_siven</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">lhf_siven</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/12/java%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lhf_siven">
+      <meta itemprop="description" content="努力变成更好的自己">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lhf_siven">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java面试准备
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-12 22:21:55" itemprop="dateCreated datePublished" datetime="2020-10-12T22:21:55+08:00">2020-10-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-14 15:34:58" itemprop="dateModified" datetime="2020-10-14T15:34:58+08:00">2020-10-14</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><h4 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP/IP"></a>TCP/IP</h4><ol>
+<li><p>TCP协议的拥塞控制就是防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不致过载。常用的方法有:</p>
+<ul>
+<li>慢开始、拥塞控制</li>
+<li>快重传、快恢复</li>
+</ul>
+</li>
+</ol>
+<h3 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h3><ol>
+<li><p>bash脚本文件一般第一行开头是：**#!**。</p>
+</li>
+<li><p>在bash编程中,算术比较大于、大于等于的运算符是：<strong>ge</strong>、<strong>gt</strong></p>
+</li>
+</ol>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><ol>
+<li><p>Object类中的方法：wait,clone,equals,hashCode,toString,getClass,notify,finalize</p>
+</li>
+<li><p>ArrayList初始容量为10,扩容*1.5（向下取整），所以存100个值需要扩6次。</p>
+</li>
+<li><p>对类的主动使用：</p>
+<ul>
+<li><p>创建类的实例</p>
+</li>
+<li><p>访问某个类或者接口的静态变量，或者对该静态变量赋值。</p>
+</li>
+<li><p>调用类的静态方法。</p>
+</li>
+<li><p>反射（Class.forName（&ldquo;&rdquo;））</p>
+</li>
+<li><p>初始化类的子类</p>
+</li>
+<li><p>java虚拟机启动时被标明为启动类的类</p>
+</li>
+<li><p>注意:<code>Class clazz=classLoader.loadClass(&quot;A&quot;);</code>是加载class文件到内存中，并没有对类进行首次主动使用，所以没有初始化,静态代码块的代码也不会执行，静态代码块的内容实在下图初始化阶段执行的。</p>
+</li>
+<li><p><strong><a target="_blank" rel="noopener" href="https://www.cnblogs.com/czwbig/p/11127222.html%EF%BC%9A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E3%80%82">https://www.cnblogs.com/czwbig/p/11127222.html：深入理解类加载机制。</a></strong></p>
+</li>
+</ul>
+<p><img src="/2020/10/12/java%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/image-20201013092305981.png" alt="image-20201013092305981"></p>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>通过子类引用父类的静态字段，不会导致子类初始化。</li>
+<li>通过数组定义来引用类，不会触发此类的初始化。<code>MyClass[] cs = new MyClass[10];</code></li>
+<li>常量在编译阶段会存入调用类的常量池中，本质上并没有直接引用到定义常量的类，因此不会触发定义常量的类的初始化。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.lhf_siven.interview;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        B[] b = <span class="keyword">new</span> B[<span class="number">5</span>];</span><br><span class="line">        System.out.print(B.c);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String c = <span class="string">&quot;C&quot;</span>;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    输出:</span></span><br><span class="line"><span class="comment">        C</span></span><br><span class="line"><span class="comment">    1. 用数组定义引用类,并不引发初始化</span></span><br><span class="line"><span class="comment">    2. 常量不引发初始化,因为它在编译阶段便被存储在常量池中,本质上并没有直接引用到定义常量的类.如果去掉A中的c的final修饰符,那么A类会被初始化,结果会变成AC,但是B类依旧不会初始化,因为是通过子类来引用父类的静态字段.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//稍微改改A和B</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> String c = <span class="string">&quot;C&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    输出:</span></span><br><span class="line"><span class="comment">    ABC</span></span><br><span class="line"><span class="comment">    因为调用了B中的静态变量,所以B类初始化,由于B类要初始化所以A类也要初始化,且在B类前,所以A,B的依次初始化,最终结果ABC</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//再稍微改改A和B</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String c = <span class="keyword">new</span> String(<span class="string">&quot;C&quot;</span>);</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.print(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    输出:</span></span><br><span class="line"><span class="comment">    AC</span></span><br><span class="line"><span class="comment">    尽管c被final修饰,但是它的值要等到执行new String(&quot;C&quot;)才会被赋予,而堆上的操作,是要等到初始化阶段才行,所以这里依旧会加载A类.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串比较</p>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String s1 = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">        String s2 = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">        System.out.println(s1 == s2);</span><br><span class="line">        String s3 = <span class="keyword">new</span> String(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">        System.out.println(s1 == s3);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    输出:</span></span><br><span class="line"><span class="comment">    true</span></span><br><span class="line"><span class="comment">    false</span></span><br><span class="line"><span class="comment">    &quot;==&quot;判断的是引用所指向的地址,而equals比较的是引用指向的地址中所存储的值.</span></span><br><span class="line"><span class="comment">    执行语句2的时候首先会看常量池中是否有&quot;abc&quot;,有的话则s1指向对应地址,没有的话则开辟一个内存存储&quot;abc&quot;</span></span><br><span class="line"><span class="comment">    执行语句3时,常量池中肯定有&quot;abc&quot;的内存,所以s2直接指向该内存,故s2和s1所指向的地址相同.</span></span><br><span class="line"><span class="comment">    故s1==s2为true</span></span><br><span class="line"><span class="comment">    执行语句5时,遇到new关键字,在堆上开辟一块新内存存放&quot;abc&quot;,所以s3指向一块新内存.</span></span><br><span class="line"><span class="comment">    故s1==s3为false.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>java中int与Integer用==比较详解</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/andyzhaojianhui/article/details/84324466">https://blog.csdn.net/andyzhaojianhui/article/details/84324466</a></p>
+</li>
+<li><p>String、StringBuffer和StringBuilder的区别：</p>
+<ul>
+<li><p>String跟其他两个类的区别是：String是final类型，每次声明的都是不可变的对象，所以每次操作都会产生新的String对象，然后将指针指向新的String对象。而StringBuffer和StringBuilder都是在原有对象上进行操作，所以如果需要经常改变字符串内容，建议采用这两者。</p>
+</li>
+<li><p>线程安全：StringBuffer：线程安全，StringBuilder：线程不安全。因为 StringBuffer 的所有公开方法都是 synchronized 修饰的，而 StringBuilder 并没有 synchronized 修饰。</p>
+</li>
+<li><p>性能：既然 StringBuffer 是线程安全的，它的所有公开方法都是同步的，StringBuilder 是没有对方法加锁同步的，所以毫无疑问，StringBuilder 的性能要远大于 StringBuffer。</p>
+</li>
+<li><p>总的来说StringBuffer适用于多线程数据量较大的，StringBuilder适用于单线程数据量要求较大的。</p>
+</li>
+</ul>
+</li>
+<li><p>谈谈你对面向对象思想的理解：</p>
+<p>   我觉得这两者是思想角度的差异，面向过程更多是以“执行者”的角度来思考问题，而面向对象更多是以“组织者”的角度来思考问题，举个例子：比如我要产生一个0-10之间的随机数，如果以“面向过程”思维，那我更多的关注如何去设计一个算法，然后保证比较均衡产生0-10的随机数，而面向对象的思维会更多去关注，我找谁来帮我们做这件事，比如Random类，调用其中提供的方法即可。</p>
+<p>   所以面向对象的思维更多的是考虑如何去选择合适的工具，然后组织到一起干一件事。</p>
+</li>
+<li><p>==和equals的区别</p>
+<ul>
+<li>== 比较的是值，比较基本的数据类型时，比较的是数值，比较引用类型时：比较的是引用指向的值（地址）</li>
+<li>equals默认比较也是地址，因为这个方法最初定义在Object上，默认的实现就是比较地址。自定义的类，如果需要比较的是内容，就要学String类，重写equals方法。</li>
+</ul>
+</li>
+<li><p>final</p>
+<ul>
+<li>修饰类：表示类不可变，不可继承</li>
+<li>修饰方法：表示该方法不可重写</li>
+<li>修饰变量：表示该变量是常量</li>
+<li>注意：修饰的是基本数据类型时，表示这个值本身不能被修改，修饰的时引用类型时，表示引用到指向不能修改，但是所指向的地址上存储的值是可以变的。</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/22/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="常用命令">
+      <i class="fa fa-chevron-left"></i> 常用命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/01/%E6%B5%AA%E6%BD%AE-%E5%86%B2%E6%B5%AA%E8%AE%A1%E5%88%92/" rel="next" title="浪潮-冲浪计划">
+      浪潮-冲浪计划 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-IP"><span class="nav-number">1.1.</span> <span class="nav-text">TCP&#x2F;IP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell"><span class="nav-number">2.</span> <span class="nav-text">Shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java"><span class="nav-number">3.</span> <span class="nav-text">Java</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lhf_siven</p>
+  <div class="site-description" itemprop="description">努力变成更好的自己</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/siven1987" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;siven1987" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lhf_siven@qq.com" title="E-Mail → mailto:lhf_siven@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lhf_siven</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>-->

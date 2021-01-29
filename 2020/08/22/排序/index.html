@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="排序算法&#x2F;Sort排序算法可以说是我们最常使用的算法了,里头的内容很多,也很有用。这篇博文就用来记录常用的排序算法。 类别 基本的排序算法 【简单直接助你迅速写出没有bug的代码】  冒泡排序&#x2F;Bubble Sort 插入排序&#x2F;Insertion Sort 选择排序&#x2F;Selection Sort  常考的排序算法 【解决绝大部分涉及排序问题的关键】  归并排序&#x2F;Merge Sort 快速排序&#x2F;Qu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序">
+<meta property="og:url" content="http://yoursite.com/2020/08/22/%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="lhf_siven">
+<meta property="og:description" content="排序算法&#x2F;Sort排序算法可以说是我们最常使用的算法了,里头的内容很多,也很有用。这篇博文就用来记录常用的排序算法。 类别 基本的排序算法 【简单直接助你迅速写出没有bug的代码】  冒泡排序&#x2F;Bubble Sort 插入排序&#x2F;Insertion Sort 选择排序&#x2F;Selection Sort  常考的排序算法 【解决绝大部分涉及排序问题的关键】  归并排序&#x2F;Merge Sort 快速排序&#x2F;Qu">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-08-22T05:21:34.000Z">
+<meta property="article:modified_time" content="2020-09-17T16:14:48.816Z">
+<meta property="article:author" content="lhf_siven">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="排序">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/22/%E6%8E%92%E5%BA%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>排序 | lhf_siven</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">lhf_siven</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/22/%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="lhf_siven">
+      <meta itemprop="description" content="努力变成更好的自己">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lhf_siven">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          排序
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-22 13:21:34" itemprop="dateCreated datePublished" datetime="2020-08-22T13:21:34+08:00">2020-08-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-18 00:14:48" itemprop="dateModified" datetime="2020-09-18T00:14:48+08:00">2020-09-18</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="排序算法-Sort"><a href="#排序算法-Sort" class="headerlink" title="排序算法/Sort"></a>排序算法/Sort</h3><p>排序算法可以说是我们最常使用的算法了,里头的内容很多,也很有用。这篇博文就用来记录常用的排序算法。</p>
+<h4 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h4><hr>
+<p><strong>基本的排序算法</strong> 【简单直接助你迅速写出没有bug的代码】</p>
+<ul>
+<li>冒泡排序/Bubble Sort</li>
+<li>插入排序/Insertion Sort</li>
+<li>选择排序/Selection Sort</li>
+</ul>
+<p><strong>常考的排序算法</strong> 【解决绝大部分涉及排序问题的关键】</p>
+<ul>
+<li>归并排序/Merge Sort</li>
+<li>快速排序/Quick Sort</li>
+<li>拓扑排序/Topological Sort</li>
+</ul>
+<p><strong>其他排序算法</strong> 【掌握好它们的解题思想能开阔解题思路】</p>
+<ul>
+<li>堆排序/Heap Sort</li>
+<li>桶排序/Bucket Sort</li>
+</ul>
+<h4 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h4><hr>
+<p><strong>算法思想</strong></p>
+<ul>
+<li>每一轮，从杂乱无章的数组头部开始，每<strong>两个元素比较大小</strong>进行交换；</li>
+<li>直到这一轮当中最大或最小的元素被放置在数组的尾部</li>
+<li>然后不断重复这个过程，直到所有元素都排好位置</li>
+<li>要注意的是，排序过程中，可能在某一轮序列就已经有序，所以我们维护一个bool值Swap用来记录本次迭代是否有进行两个元素位置的交换，如果没有，则排序终止，如果有则继续。</li>
+</ul>
+<p><strong>代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;v,<span class="keyword">int</span> x ,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="comment">//两个数的交换有很多种方法，常用的是用一个temp暂存其中一个值</span></span><br><span class="line">    <span class="comment">//这里选择用异或a^b=c,c^a=b,c^b=a的特性来交换。</span></span><br><span class="line">    v[x] = v[x]^v[y];</span><br><span class="line">    v[y] = v[x]^v[y];</span><br><span class="line">    v[x] = v[x]^v[y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Bubble</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;v,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> Swap = <span class="literal">false</span>;</span><br><span class="line">    <span class="comment">//冒泡</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> x = <span class="number">0</span>;x&lt;len<span class="number">-1</span>;x++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(v[x]&gt;v[x+<span class="number">1</span>])&#123;</span><br><span class="line">            swap(v,x,x+<span class="number">1</span>);</span><br><span class="line">            Swap = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Swap;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BubbleSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;v)</span></span>&#123;</span><br><span class="line">    <span class="comment">//一开始待排序数组长度为v.size(),随后不断-1，直到待排序的数组长度为1，跳出排序。</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> x=v.size();x&gt;<span class="number">1</span>&amp;&amp;Bubble(v,x);x--); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>算法分析</strong></p>
+<p><strong>空间复杂度：O（1）</strong></p>
+<p>假设数组的元素个数是n，整个排序的过程中，直接在给定的数组里进行元素的亮亮交换。</p>
+<p><strong>时间复杂度：O（n^2)</strong></p>
+<ul>
+<li><p>给定数组按照顺序已经排好</p>
+<p>只需要进行n-1次的比较,两两交换次数为0,时间复杂度是O(n),这是最好的情况</p>
+</li>
+<li><p>给定数组按逆序排列</p>
+<p>需要进行n(n-1)/2 （即1+…+n-1）次比较和两两交换，时间复杂度是0（n^2),这是最坏的情况。</p>
+</li>
+<li><p>给定的数组杂乱无章</p>
+<p>在这种情况下，平均时间复杂度是O(n^2)</p>
+</li>
+<li><p>由此可见冒泡排序的时间复杂度是O（n^2）</p>
+</li>
+</ul>
+<p><strong>冒泡排序是一种稳定的排序算法，所谓稳定，也就是说对于数组里两个相等的数，经过排列后，这两个数的相对位置保持不变。</strong></p>
+<h4 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h4><hr>
+<p><strong>遇冒泡排序对比</strong></p>
+<ul>
+<li>在冒泡排序中，经过每一轮的排序处理后，数组后端的数是排好序的；</li>
+<li>在插入排序中，经过每一轮的排序处理后，数组后端的数是排好序的；</li>
+</ul>
+<p><strong>算法思想</strong></p>
+<p>不断地将尚未排好序的数插入到已经排好序的部分。</p>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><hr>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV11K4y1b7bC?from=search&amp;seid=1328949494534586893">https://www.bilibili.com/video/BV11K4y1b7bC?from=search&amp;seid=1328949494534586893</a></p>
+<p>一个序列怎样才算是排好序的呢?</p>
+<p>我们认为,序列中每一个数都满足,它左边的数比它小,它右边的数比它大的时候,这个序列是有序的。</p>
+<p>而上面这一思想就体现了快排的思想。</p>
+<p>对于一个数组，我们随机选一个数，让它左边的数都比它小，让它右边的数都比它大，然后左右两个子序列递归这个过程，就可以实现排序的过程。</p>
+<p>Lomuto实现：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v)</span></span>&#123;</span><br><span class="line">    v[x] = v[x]^v[y];</span><br><span class="line">    v[y] = v[x]^v[y];</span><br><span class="line">    v[x] = v[x]^v[y];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v)</span></span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        这里pivot设置成了最左边的元素,实际上可以任意选择.</span></span><br><span class="line"><span class="comment">          Partition将序列分成四个部分:</span></span><br><span class="line"><span class="comment">          pivot-&gt;比pivot小的序列-&gt;比pivot大的序列-&gt;待处理的序列.</span></span><br><span class="line"><span class="comment">          用指针j,i分别指向比pivot小的序列的末尾和待处理序列的第一个元素.</span></span><br><span class="line"><span class="comment">          当v[i]比pivot大时,那么只需要i++,该元素就会被加入到大于pivot的序列中,</span></span><br><span class="line"><span class="comment">          当v[i]小于或等于pivot的时候,只需要将第j+1的元素与i调换,然后j++,那么该元素就会被加入到小于pivot的序列当中.</span></span><br><span class="line"><span class="comment">          当待处理序列为空,即i&gt;right的时候,则说明所有元素都以经被处理成比pivot小和比pivot大的两部分,</span></span><br><span class="line"><span class="comment">          且因为j始终指向比pivot小的序列的末尾,那么只需要将pivot对应的元素与j对应的元素调换,即可满足</span></span><br><span class="line"><span class="comment">          pivot左边的元素都比它小,右边的元素都比它大.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">int</span> pivot = left,j = pivot;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = pivot+<span class="number">1</span>;i&lt;=right;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(v[i]&gt;v[pivot]) &#123;&#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;j++;<span class="keyword">if</span>(j != i) swap(j,i,v);&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(pivot != j) swap(pivot,j,v);</span><br><span class="line">    <span class="keyword">return</span> j;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QuickSort</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v)</span></span>&#123;</span><br><span class="line">    <span class="comment">//注意是&gt;=,因为有可能pivot是最大的,或者最小的,那么m+1,m-1就有可能比right大,比left小.</span></span><br><span class="line">    <span class="keyword">if</span>(left&gt;=right) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//Partition 每次确定一个元素的位置,当比它小的都在它的左边,比它大的都在它的右边的时候,那它的位置就是最终有序时候的位置.</span></span><br><span class="line">    <span class="keyword">int</span> m = Partition(left,right,v);</span><br><span class="line">    <span class="comment">//对左右两边子序列进行递归调用QuickSort;</span></span><br><span class="line">    QuickSort(left,m<span class="number">-1</span>,v);</span><br><span class="line">    QuickSort(m+<span class="number">1</span>,right,v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag"># 排序</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/18/c-%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/" rel="prev" title="c++面试准备">
+      <i class="fa fa-chevron-left"></i> c++面试准备
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/23/%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="next" title="小技巧">
+      小技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-Sort"><span class="nav-number">1.</span> <span class="nav-text">排序算法&#x2F;Sort</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB"><span class="nav-number">1.1.</span> <span class="nav-text">类别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number">1.3.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">1.4.</span> <span class="nav-text">快速排序</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lhf_siven</p>
+  <div class="site-description" itemprop="description">努力变成更好的自己</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/siven1987" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;siven1987" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lhf_siven@qq.com" title="E-Mail → mailto:lhf_siven@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lhf_siven</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>-->
